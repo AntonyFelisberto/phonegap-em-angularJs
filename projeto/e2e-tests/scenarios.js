@@ -1,13 +1,13 @@
 'use strict';
 
-// AngularJS E2E Testing Guide:
+// Angular E2E Testing Guide:
 // https://docs.angularjs.org/guide/e2e-testing
 
 describe('PhoneCat Application', function() {
 
   it('should redirect `index.html` to `index.html#!/phones', function() {
     browser.get('index.html');
-    expect(browser.getCurrentUrl()).toContain('index.html#!/phones');
+    expect(browser.getLocationAbsUrl()).toBe('/phones');
   });
 
   describe('View: Phone list', function() {
@@ -62,7 +62,7 @@ describe('PhoneCat Application', function() {
       query.sendKeys('nexus');
 
       element.all(by.css('.phones li a')).first().click();
-      expect(browser.getCurrentUrl()).toContain('index.html#!/phones/nexus-s');
+      expect(browser.getLocationAbsUrl()).toBe('/phones/nexus-s');
     });
 
   });
@@ -80,7 +80,7 @@ describe('PhoneCat Application', function() {
     it('should display the first phone image as the main phone image', function() {
       var mainImage = element(by.css('img.phone.selected'));
 
-      expect(mainImage.getAttribute('src')).toContain('img/phones/nexus-s.0.jpg');
+      expect(mainImage.getAttribute('src')).toMatch(/img\/phones\/nexus-s.0.jpg/);
     });
 
     it('should swap the main image when clicking on a thumbnail image', function() {
@@ -88,10 +88,10 @@ describe('PhoneCat Application', function() {
       var thumbnails = element.all(by.css('.phone-thumbs img'));
 
       thumbnails.get(2).click();
-      expect(mainImage.getAttribute('src')).toContain('img/phones/nexus-s.2.jpg');
+      expect(mainImage.getAttribute('src')).toMatch(/img\/phones\/nexus-s.2.jpg/);
 
       thumbnails.get(0).click();
-      expect(mainImage.getAttribute('src')).toContain('img/phones/nexus-s.0.jpg');
+      expect(mainImage.getAttribute('src')).toMatch(/img\/phones\/nexus-s.0.jpg/);
     });
 
   });
